@@ -17,6 +17,12 @@ void Jedi::erase()
 	lightsaberColour = nullptr;
 }
 
+Jedi::Jedi()
+{
+	name = nullptr;
+	lightsaberColour = nullptr;
+}
+
 Jedi::Jedi(const char* m_name, Rank m_rank, size_t m_age, const char* colour, double m_power)
 {
 	copy(m_name, m_rank, m_age, colour, m_power);
@@ -58,7 +64,7 @@ void Jedi::serialize(std::ostream& out) const
 	out.write((char*)&power, sizeof(power));
 }
 
-void Jedi::deserialize(std::istream in)
+void Jedi::deserialize(std::istream& in)
 {
 	size_t nameLen = 0;
 	in.read((char*)&nameLen, sizeof(nameLen));

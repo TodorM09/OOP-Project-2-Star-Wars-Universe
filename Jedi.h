@@ -17,13 +17,14 @@ private:
 	void copy(const char* m_name, Rank m_rank, size_t m_age, const char* colour, double m_power);
 	void erase();
 public:
+	Jedi();
 	Jedi(const char* m_name, Rank m_rank, size_t m_age, const char* colour, double m_power);
 	Jedi(const Jedi& other);
 	Jedi& operator=(const Jedi& other);
 	~Jedi();
 
 	void serialize(std::ostream& out) const;
-	void deserialize(std::istream in);
+	void deserialize(std::istream& in);
 
 	void setName(const char* m_name);
 	void setRank(const Rank& m_rank);
