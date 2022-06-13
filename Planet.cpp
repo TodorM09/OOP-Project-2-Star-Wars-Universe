@@ -41,6 +41,20 @@ void Planet::resize()
 	
 }
 
+void Planet::sortByRank()
+{
+	for (size_t i = 0; i < size-1; i++)
+	{
+		for (size_t j = i+1; j < size; j++)
+		{
+			if (jedi[j] < jedi[i])
+			{
+				jedi[i].swap(jedi[j]);
+			}
+		}
+	}
+}
+
 Planet::Planet()
 {
 	name = nullptr;
@@ -124,6 +138,93 @@ void Planet::createJedi(const char* jediName, Rank jediRank, size_t jediAge, con
 	}
 	Jedi temp(jediName, jediRank, jediAge, saberColour, jediStrength);
 	jedi[size] = temp;
+}
+
+void Planet::removeJedi(const char* jediName)
+{
+	for (size_t i = 0; i < size; i++)
+	{
+		if (strcmp(jedi[i].getName(), jediName) == 0)
+		{
+			jedi[i].~Jedi();
+			for (size_t j = i; j < size-1; j++)
+			{
+				jedi[j] = jedi[j + 1];
+			}
+			jedi[size - 1].~Jedi();
+			size--;
+			break;
+		}
+	}
+}
+
+void Planet::promoteJedi(const char* jediName, double multiplier)
+{
+	for (size_t i = 0; i < size; i++)
+	{
+		if (strcmp(jedi[i].getName(), jediName) == 0)
+		{
+			jedi[i].promote(multiplier);
+		}
+	}
+}
+
+void Planet::demoteJedi(const char* jediName, double multiplier)
+{
+	for (size_t i = 0; i < size; i++)
+	{
+		if (strcmp(jedi[i].getName(), jediName) == 0)
+		{
+			jedi[i].demote(multiplier);
+		}
+	}
+}
+
+void Planet::getStrongestJedi() const
+{
+	double maxPower = 0;
+	size_t index;
+	for (size_t i = 0; i < size; i++)
+	{
+		if (maxPower < jedi[i].getPower())
+		{
+			index = i;
+		}
+	}
+	std::cout << "Most powerful jedi is:" << std::endl;
+	jedi[index].print();
+}
+
+void Planet::getYoungestJedi(const Rank& rank) 
+{
+	sortByRank();
+	size_t index;
+	for (size_t i = 0; i < size; i++)
+	{
+		if (jedi[i].getRank() == rank)
+		{
+			index = i;
+			size_t minAge = jedi[i].getAge();
+			for (size_t j = i+1; j < size; j++)
+			{
+				if (jedi[j].getRank() == rank)
+				{
+					if (jedi[j].getAge() < minAge)
+					{
+						minAge = jedi[j].getAge();
+						index = j;
+					}
+				}
+				else
+				{
+					break;
+				}
+			}
+			std::cout << "Youngest jedi is:" << std::endl;
+			jedi[index].print();
+		}
+		break;
+	}
 }
 
 void Planet::setName(const char* m_name)

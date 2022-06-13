@@ -2,9 +2,11 @@
 
 void Jedi::copy(const char* m_name, Rank m_rank, size_t m_age, const char* colour, double m_power)
 {
+	name = new char[strlen(m_name) + 1];
 	strcpy_s(name, strlen(m_name + 1), m_name);
 	rank = m_rank;
 	age = m_age;
+	lightsaberColour = new char[strlen(colour) + 1];
 	strcpy_s(lightsaberColour, strlen(colour) + 1, colour);
 	power = m_power;
 }
@@ -226,6 +228,13 @@ bool Jedi::operator<(const Jedi& other)
 			return false;
 		}
 	}
+}
+
+void Jedi::swap(Jedi& other)
+{
+	Jedi temp = other;
+	other = *this;
+	*this = temp;
 }
 
 void Jedi::print() const

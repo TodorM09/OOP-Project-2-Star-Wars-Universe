@@ -10,6 +10,7 @@ private:
 	void copy(const Planet& other);
 	void erase();
 	void resize();
+	void sortByRank();
 public:
 	Planet();
 	Planet(const Planet& other);
@@ -20,6 +21,11 @@ public:
 	void deserialize(std::istream& in);
 
 	void createJedi(const char* jediName, Rank jediRank, size_t jediAge, const char* saberColour, double jediStrength);
+	void removeJedi(const char* jediName);
+	void promoteJedi(const char* jediName, double multiplier);
+	void demoteJedi(const char* jediName, double multiplier);
+	void getStrongestJedi() const;
+	void getYoungestJedi(const Rank& rank);
 
 	void setName(const char* m_name);
 	const char* getName() const;

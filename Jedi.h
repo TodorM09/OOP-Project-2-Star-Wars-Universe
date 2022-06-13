@@ -42,7 +42,7 @@ public:
 	void demote(double multiplier);
 
 	bool operator<(const Jedi& other);
-
+	void swap(Jedi& other);
 	void print() const;
 };
 
