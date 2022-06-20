@@ -168,9 +168,11 @@ void Planet::removeJedi(const char* jediName)
 			}
 			jedi[size - 1].~Jedi();
 			size--;
-			break;
+			std::cout << "Jedi removed successfully!" << std::endl;
+			return;
 		}
 	}
+	std::cout << "Such jedi does not inhabit this planet!" << std::endl;
 }
 
 void Planet::promoteJedi(const char* jediName, double multiplier)
@@ -195,7 +197,7 @@ void Planet::demoteJedi(const char* jediName, double multiplier)
 	}
 }
 
-void Planet::getStrongestJedi() const
+void Planet::getStrongestJedi() const //void because the task asks for print
 {
 	double maxPower = 0;
 	size_t index;
@@ -210,7 +212,7 @@ void Planet::getStrongestJedi() const
 	jedi[index].print();
 }
 
-void Planet::getYoungestJedi(const Rank& rank) 
+void Planet::getYoungestJedi(const Rank& rank) //void because the task asks for print
 {
 	sortByRank();
 	size_t index;
@@ -242,7 +244,7 @@ void Planet::getYoungestJedi(const Rank& rank)
 	}
 }
 
-const char* Planet::getMostUsedColour(const Rank& rank) const
+const char* Planet::getMostUsedSaberColour(const Rank& rank) const
 {
 	Pair** histogram = new Pair * [size];
 	for (size_t i = 0; i < size; i++)
@@ -280,6 +282,11 @@ const char* Planet::getMostUsedColour(const Rank& rank) const
 			index = i;
 		}
 	}
+	if (max == 0)
+	{
+		std::cout << "There are no jedi on the planet yet!" << std::endl;
+		return nullptr;
+	}
 
 	int len = strlen(histogram[index]->first);
 	char* temp = new char[len + 1];
@@ -290,14 +297,13 @@ const char* Planet::getMostUsedColour(const Rank& rank) const
 		delete[] histogram[i];
 	}
 	delete[] histogram;
-
 	return temp;
 }
 
 const char* Planet::getMostUsedSaberColour() const
 {
 	
-	return getMostUsedColour(Rank::GRAND_MASTER);
+	return getMostUsedSaberColour(Rank::GRAND_MASTER);
 }
 
 void Planet::print()
@@ -310,7 +316,7 @@ void Planet::print()
 	}
 }
 
-Planet& Planet::operator+(const Planet& other)
+void Planet::operator+(const Planet& other)
 {
 	std::cout << "All jedi in both planets:" << std::endl;
 	Planet temp;
@@ -330,7 +336,6 @@ Planet& Planet::operator+(const Planet& other)
 	{
 		temp.getJedi()[i].print();
 	}
-	return *this;
 }
 
 void Planet::setName(const char* m_name)

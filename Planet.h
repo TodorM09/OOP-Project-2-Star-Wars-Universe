@@ -28,10 +28,10 @@ public:
 	void demoteJedi(const char* jediName, double multiplier);
 	void getStrongestJedi() const;
 	void getYoungestJedi(const Rank& rank);
-	const char* getMostUsedColour(const Rank& rank) const;
+	const char* getMostUsedSaberColour(const Rank& rank) const;
 	const char* getMostUsedSaberColour() const;
 	void print();
-	Planet& operator+(const Planet& other);
+	void operator+(const Planet& other);
 
 	void setName(const char* m_name);
 	const char* getName() const;

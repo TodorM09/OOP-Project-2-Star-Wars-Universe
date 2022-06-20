@@ -142,11 +142,13 @@
     <ClInclude Include="Jedi.h" />
     <ClInclude Include="Pair.h" />
     <ClInclude Include="Planet.h" />
+    <ClInclude Include="Universe.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Jedi.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Planet.cpp" />
+    <ClCompile Include="Universe.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
