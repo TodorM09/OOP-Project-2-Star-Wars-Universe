@@ -1,5 +1,6 @@
 #pragma once
 #include "Jedi.h"
+#include "Pair.h"
 class Planet
 {
 private:
@@ -11,6 +12,7 @@ private:
 	void erase();
 	void resize();
 	void sortByRank();
+	void sortByNames();
 public:
 	Planet();
 	Planet(const Planet& other);
@@ -26,6 +28,10 @@ public:
 	void demoteJedi(const char* jediName, double multiplier);
 	void getStrongestJedi() const;
 	void getYoungestJedi(const Rank& rank);
+	const char* getMostUsedColour(const Rank& rank) const;
+	const char* getMostUsedSaberColour() const;
+	void print();
+	Planet& operator+(const Planet& other);
 
 	void setName(const char* m_name);
 	const char* getName() const;
@@ -35,5 +41,7 @@ public:
 
 	void setCapacity(size_t m_capacity);
 	size_t getCapacity() const;
+
+	const Jedi* getJedi() const;
 };
 

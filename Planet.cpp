@@ -55,6 +55,21 @@ void Planet::sortByRank()
 	}
 }
 
+void Planet::sortByNames()
+{
+	for (size_t i = 0; i < size-1; i++)
+	{
+		for (size_t j = 0; j < size; j++)
+		{
+			int temp = strcmp(jedi[i].getName(), jedi[j].getName());
+			if (temp > 0)
+			{
+				jedi[i].swap(jedi[j]);
+			}
+		}
+	}
+}
+
 Planet::Planet()
 {
 	name = nullptr;
@@ -227,6 +242,97 @@ void Planet::getYoungestJedi(const Rank& rank)
 	}
 }
 
+const char* Planet::getMostUsedColour(const Rank& rank) const
+{
+	Pair** histogram = new Pair * [size];
+	for (size_t i = 0; i < size; i++)
+	{
+		if (jedi[i].getRank() == rank)
+		{
+			int len = strlen(jedi[i].getColour());
+			strcpy_s(histogram[i]->first, len + 1, jedi[i].getColour());
+			histogram[i]->second = 1;
+		}
+	}
+
+	for (size_t i = 0; i < size-1; i++)
+	{
+		for (size_t j = i + 1; j < size; j++)
+		{
+			if (histogram[i]->second != 0)
+			{
+				if (strcmp(histogram[i]->first, histogram[j]->first) == 0)
+				{
+					histogram[i]->second++;
+					histogram[j]->second--;
+				}
+			}
+		}
+	}
+
+	int max = 0;
+	int index;
+	for (size_t i = 0; i < size; i++)
+	{
+		if (histogram[i]->second > max)
+		{
+			max = histogram[i]->second;
+			index = i;
+		}
+	}
+
+	int len = strlen(histogram[index]->first);
+	char* temp = new char[len + 1];
+	strcpy_s(temp, len + 1, histogram[index]->first);
+
+	for (size_t i = 0; i < size; i++)
+	{
+		delete[] histogram[i];
+	}
+	delete[] histogram;
+
+	return temp;
+}
+
+const char* Planet::getMostUsedSaberColour() const
+{
+	
+	return getMostUsedColour(Rank::GRAND_MASTER);
+}
+
+void Planet::print()
+{
+	std::cout << getName() << std::endl;
+	sortByRank();
+	for (size_t i = 0; i < size; i++)
+	{
+		jedi[i].print();
+	}
+}
+
+Planet& Planet::operator+(const Planet& other)
+{
+	std::cout << "All jedi in both planets:" << std::endl;
+	Planet temp;
+	temp.setCapacity((size + other.getSize()));//no need for extra capacity because there will be no new jedi added.
+	temp.setSize((size + other.getSize()));
+	temp.jedi = new Jedi[capacity];
+	for (size_t i = 0; i < size; i++)
+	{
+		temp.jedi[i] = jedi[i];
+	}
+	for (size_t i = size; i < temp.getSize(); i++)
+	{
+		temp.jedi[i] = other.jedi[i];
+	}
+	temp.sortByNames();
+	for (size_t i = 0; i < temp.getSize(); i++)
+	{
+		temp.getJedi()[i].print();
+	}
+	return *this;
+}
+
 void Planet::setName(const char* m_name)
 {
 	size_t len = strlen(m_name);
@@ -257,4 +363,9 @@ void Planet::setCapacity(size_t m_capacity)
 size_t Planet::getCapacity() const
 {
 	return capacity;
+}
+
+const Jedi* Planet::getJedi() const
+{
+	return jedi;
 }
