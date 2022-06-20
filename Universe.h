@@ -1,5 +1,6 @@
 #pragma once
 #include "Planet.h"
+#include <fstream>
 class Universe
 {
 private:
@@ -17,7 +18,9 @@ public:
 	~Universe();
 
 	void serialize(std::ostream& out) const;
-	void deserialize(std::istream in);
+	void deserialize(std::istream& in);
+	void writeInFile(const char* fileName);
+	void getFromFile(const char* fileName);
 
 	void addPlanet(const char* m_name);
 	void createJedi(const char* planetName, const char* jediName, Rank jediRank,
@@ -31,6 +34,5 @@ public:
 	const char* getMostUsedSaberColour(const char* planetName);
 
 	void print(const char* planetName) const;
-
 };
 

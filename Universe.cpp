@@ -84,7 +84,7 @@ void Universe::serialize(std::ostream& out) const
 	}
 }
 
-void Universe::deserialize(std::istream in)
+void Universe::deserialize(std::istream& in)
 {
 	size_t nameLen = 0;
 	in.read((char*)&nameLen, sizeof(nameLen));
@@ -94,10 +94,36 @@ void Universe::deserialize(std::istream in)
 	in.read((char*)&size, sizeof(size));
 	in.read((char*)&capacity, sizeof(capacity));
 
+	planets = new Planet[capacity];
 	for (size_t i = 0; i < size; i++)
 	{
 		planets[i].deserialize(in);
 	}
+}
+
+void Universe::writeInFile(const char* fileName)
+{
+	std::ofstream out;
+	out.open(fileName, std::ios::binary);
+	if (!out.is_open())
+	{
+		throw std::runtime_error("File couldn't open correctly");
+	}
+	serialize(out);
+	out.close();
+}
+
+void Universe::getFromFile(const char* fileName)
+{
+	std::ifstream in;
+	in.open(fileName, std::ios::binary);
+	if (!in.is_open())
+	{
+		throw std::runtime_error("File couldn't open correctly");
+	}
+
+	deserialize(in);
+	in.close();
 }
 
 void Universe::addPlanet(const char* m_name)
